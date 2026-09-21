@@ -44,3 +44,12 @@ Via rayon, *UWUPK* employs a work-stealing scheduler that saturates every logica
 
 ### For colors:
 Instead of sending separate commands for colors, *UWUPK* bakes the ANSI escape codes (\x1b[32m) directly into the binary stream. This reduces the number of control instructions the terminal emulator has to parse, shifting the rendering load to the GPU.
+
+
+# Release me T_T
+This is Extreme Over-engineering of the Hyper-Frog Rendering Framework.
+I need to find the keys out of my basement, I need to go touch grass! 
+
+**Warning**
+This may *"melt"* your terminal. You've been warned.
+I also warn you, my AGPL license is ragebaitingly *serious*. I assume that it's working.
