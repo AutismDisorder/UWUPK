@@ -18,7 +18,11 @@ cargo run --release
 
 **Simple explanation**
 
-println = slow
-
-
-syscal = fast
+```bash
+bash-5.3$ timeout 10s yes frog | pv > /dev/null
+33.6GiB 0:00:10 [3.56GiB/s] [          <=>                                        ]
+pv: interrupted by a signal: Terminated
+bash-5.3$ timeout 10s ./UWUPK frog | pv > /dev/null
+86.4GiB 0:00:10 [7.82GiB/s] [          <=>                                        ]
+pv: interrupted by a signal: Terminated
+```
