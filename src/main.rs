@@ -1,5 +1,4 @@
-use std::io;
-use std::os::unix::io::AsRawFd;
+use std::{io, os::unix::io::AsRawFd};
 
 fn main() {
     let green = "\x1b[32m";
