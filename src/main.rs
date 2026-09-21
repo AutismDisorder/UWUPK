@@ -1,43 +1,34 @@
-use rayon;
-use std::io;
+use std::io::{self};
 use std::os::unix::io::AsRawFd;
 use std::sync::Arc;
 use std::thread;
 
-struct SendPtr(*const u8);
-unsafe impl Send for SendPtr {}
-unsafe impl Sync for SendPtr {}
-
-impl SendPtr {
-    fn get(&self) -> *const u8 {
-        self.0
-    }
-}
-
 fn main() {
+    const BATCH_SIZE: usize = 1000;
+
     let cores = thread::available_parallelism()
         .map(|n| n.get())
         .unwrap_or(1);
 
     let green = "\x1b[32m";
     let reset = "\x1b[0m";
-    let payload = format!("{}{}{}", green, "frog\n".repeat(1000), reset);
-    let bytes = payload.into_bytes();
-    let len = bytes.len();
 
-    let shared_ptr = Arc::new(SendPtr(bytes.as_ptr()));
+    let payload = format!("{green}{}{reset}", "frog\n".repeat(BATCH_SIZE));
+
+    let bytes: Arc<Vec<u8>> = Arc::new(payload.into_bytes());
+    let len = bytes.len();
     let fd = io::stdout().as_raw_fd();
 
-    println!("Launching Unsafe Frog Driver on {} cores...", cores);
+    println!("Launching UWUPK on {} cores...", cores);
 
     rayon::scope(|s| {
         for _ in 0..cores {
-            let ptr_clone = Arc::clone(&shared_ptr);
+            let bytes_arc = Arc::clone(&bytes);
 
             s.spawn(move |_| {
                 loop {
                     unsafe {
-                        libc::write(fd, ptr_clone.get() as *const libc::c_void, len);
+                        libc::write(fd, bytes_arc.as_ptr().cast::<libc::c_void>(), len);
                     }
                 }
             });
