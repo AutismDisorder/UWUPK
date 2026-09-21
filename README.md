@@ -18,4 +18,5 @@ cargo run --release
 
 **Simple explanation**
 
-println
+println = slow
+syscal = fast
