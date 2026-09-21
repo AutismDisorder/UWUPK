@@ -1,4 +1,4 @@
-use std::io::{self};
+use std::io;
 use std::os::unix::io::AsRawFd;
 
 fn main() {
